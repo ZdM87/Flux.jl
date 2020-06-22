@@ -1,4 +1,4 @@
-using Flux, CuArrays, Test
+using Flux, CUDA, Test
 using Flux: pullback
 
 @testset for R in [RNN, GRU, LSTM]
@@ -26,7 +26,7 @@ end
     cuy, cuback = pullback((r, x) -> r(x), curnn, cux)
 
     @test y ≈ collect(cuy)
-    @test haskey(Flux.CUDA.descs, curnn.cell)
+    @test haskey(Flux.CUDAint.descs, curnn.cell)
 
     ȳ = randn(size(y))
     m̄, x̄ = back(ȳ)
